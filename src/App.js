@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 
@@ -7,6 +8,18 @@ import { Cart, Home } from './pages/';
 
 
 function App() {
+
+  const [pizzas, setPizzas] = useState([])
+
+  useEffect(() => {
+    fetch('http://localhost:3000/db.json')
+      .then((resp) => resp.json())
+      .then(json => {
+        setPizzas(json.pizzas);
+      })
+  }, [])
+
+  console.log(pizzas);
 
   return (
     <div className="wrapper">
