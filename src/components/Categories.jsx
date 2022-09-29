@@ -16,7 +16,7 @@ export default function Categories({ items, onCLickItem }) {
         className={activeItem === null ? 'active' : ''}
         onClick={() => {onSelectItem(null)}}
         >Все</li>
-        {
+        {items &&
           items.map((name, index) => (
             <li
               className={activeItem === index ? 'active' : ''}
