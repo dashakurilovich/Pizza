@@ -1,7 +1,9 @@
 import { Categories, SortPopup, PizzaBlock } from "../components";
 
 
-function Home() {
+function Home({ items }) {
+
+
   return (
     <div className="container">
       <div className="content__top">
@@ -17,7 +19,11 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        <PizzaBlock />
+        {
+          items.map((obj) => (
+            <PizzaBlock
+              key={obj.id} {...obj} />
+          ))}
       </div>
     </div>
   );
