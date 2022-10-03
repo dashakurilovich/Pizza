@@ -6,7 +6,6 @@ import './App.scss';
 import { Header } from './components';
 import { Cart, Home } from './pages/';
 
-
 function App() {
 
   const [pizzas, setPizzas] = useState([])

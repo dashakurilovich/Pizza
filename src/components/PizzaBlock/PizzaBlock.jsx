@@ -18,7 +18,6 @@ function PizzaBlock({ name, imageUrl, price, types, sizes }) {
     setActiveSize(index)
   }
 
-  console.log(name, sizes);
 
   return (
     <div className="pizza-block">
@@ -85,12 +84,9 @@ PizzaBlock.propTypes = {
   name: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  types: PropTypes.arrayOf([PropTypes.number]).isRequired,
-  sizes: PropTypes.arrayOf([PropTypes.number]).isRequired,
+  types: PropTypes.array.isRequired,
+  sizes: PropTypes.array.isRequired,
 }
 
-PizzaBlock.defaultProps = {
-  types: []
-};
 
 export default PizzaBlock;
