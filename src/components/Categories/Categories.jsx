@@ -7,6 +7,7 @@ export default function Categories({ items, onCLickItem }) {
 
   const onSelectItem = (index) => {
     setActiveItem(index)
+    onCLickItem(index)
   }
 
   return (
