@@ -23,7 +23,6 @@ function SortPopup({ items }) {
   const handleOutsideClick = (e) => {
     if (!e.path.includes(sortRef.current)) {
       setVisiblePopup(false)
-      console.log('outside');
     }
   }
 
