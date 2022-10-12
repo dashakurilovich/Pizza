@@ -8,7 +8,6 @@ const Categories = React.memo(function Categories({ items, onCLickItem }) {
     setActiveItem(index)
     onCLickItem(index)
   }
-  console.log('RERENDER CATEGORIES');
 
   return (
     <div className="categories">

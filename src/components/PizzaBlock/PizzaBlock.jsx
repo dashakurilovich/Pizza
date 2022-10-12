@@ -1,8 +1,9 @@
 import { useState } from "react";
 import classNames from "classnames";
 import PropTypes from 'prop-types';
+import PizzaLoadingBlock from "./PizzaBlockSkeleton";
 
-function PizzaBlock({ name, imageUrl, price, types, sizes }) {
+function PizzaBlock({ name, imageUrl, price, types, sizes, isLoading }) {
 
   const typeNames = ['тонкое', 'традиционное']
   const avaiableTypes = [26, 30, 40]
@@ -18,6 +19,11 @@ function PizzaBlock({ name, imageUrl, price, types, sizes }) {
     setActiveSize(index)
   }
 
+  if (isLoading) {
+    return (
+      <PizzaLoadingBlock />
+    )
+  }
 
   return (
     <div className="pizza-block">
@@ -85,7 +91,14 @@ PizzaBlock.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   types: PropTypes.array.isRequired,
-  sizes: PropTypes.array.isRequired,
+  sizes: PropTypes.array.isRequired
+}
+
+PizzaBlock.defaultProps = {
+  name: '---',
+  price: 0,
+  types: [],
+  sizes: [],
 }
 
 
