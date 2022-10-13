@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 
-const SortPopup = React.memo(function SortPopup({ items }) {
+const SortPopup = React.memo(function SortPopup({ items, onClickSortType, activeSortType }) {
 
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [activeItem, setActiveItem] = useState(0);
   const sortRef = useRef();
 
-  const activeName = items[activeItem].name
+  const activeLabel = items.find(obj => obj.type === activeSortType).name
 
   const onSelectItem = (index) => {
-    setActiveItem(index);
+    if (onClickSortType) {
+      onClickSortType(index);
+    }
     setVisiblePopup(false);
   }
 
@@ -29,6 +31,7 @@ const SortPopup = React.memo(function SortPopup({ items }) {
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideClick)
   }, [])
+
 
   return (
     <div ref={sortRef} className="sort">
@@ -47,15 +50,15 @@ const SortPopup = React.memo(function SortPopup({ items }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={toggleVisiblePopUp}>{activeName}</span>
+        <span onClick={toggleVisiblePopUp}>{activeLabel}</span>
       </div>
       {visiblePopup && <div className="sort__popup">
         <ul>
           {items &&
             items.map((obj, index) => (
               <li
-                className={activeItem === index ? 'active' : ''}
-                onClick={() => onSelectItem(index)}
+                className={activeSortType === obj.type ? 'active' : ''}
+                onClick={() => onSelectItem(obj.type)}
                 key={`${obj.type}_${index}`}>
                 {obj.name}
               </li>
@@ -66,5 +69,14 @@ const SortPopup = React.memo(function SortPopup({ items }) {
     </div>
   );
 })
+
+SortPopup.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.object),
+  //onClickSortType: PropTypes.string,
+  //activeSortType: PropTypes.func
+}
+SortPopup.defaultProps = {
+  items: []
+}
 
 export default SortPopup;

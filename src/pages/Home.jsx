@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Categories, SortPopup, PizzaBlock } from "../components";
-import { setCategory } from '../redux/actions/filter';
+import { setCategory, setSortBy } from '../redux/actions/filter';
 import { fetchPizzas } from '../redux/actions/pizzas';
 import PizzaLoadingBlock from '../components/PizzaBlock/PizzaBlockSkeleton';
 
@@ -21,22 +21,29 @@ function Home() {
   const { category, sortBy } = useSelector(({ filter }) => filter)
 
   useEffect(() => {
-    dispatch(fetchPizzas());
-  }, [category])
+    dispatch(fetchPizzas(sortBy, category));
+  }, [category, sortBy])
 
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index))
-  }, [])
-  
+  }, [dispatch])
+
+  const onSelectSortType = React.useCallback((type) => {
+    dispatch(setSortBy(type))
+  }, [dispatch])
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories
           activeCategory={category}
-          onCLickItem={onSelectCategory}
+          onCLickCategory={onSelectCategory}
           items={categoryNames} />
-        <SortPopup items={sortItems} />
+        <SortPopup
+          activeSortType={sortBy}
+          onClickSortType={onSelectSortType}
+          items={sortItems} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
