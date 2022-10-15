@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 const Categories = React.memo(function Categories({ activeCategory, items, onCLickCategory }) {
 
-  console.log(activeCategory);
 
   return (
     <div className="categories">

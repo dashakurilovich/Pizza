@@ -2,14 +2,15 @@ import { useState } from "react";
 import classNames from "classnames";
 import PropTypes from 'prop-types';
 import PizzaLoadingBlock from "./PizzaBlockSkeleton";
+import { Button } from "..";
 
-function PizzaBlock({ name, imageUrl, price, types, sizes, isLoading }) {
+function PizzaBlock({ id, name, imageUrl, price, types, sizes, isLoading, onClickAddPizza, addedCount }) {
 
-  const typeNames = ['тонкое', 'традиционное']
-  const avaiableTypes = [26, 30, 40]
+  const avaiableTypes = ['тонкое', 'традиционное']
+  const avaiableSizes = [26, 30, 40]
 
   const [activeType, setActiveType] = useState(types[0])
-  const [activeSize, setActiveSize] = useState(sizes[0])
+  const [activeSize, setActiveSize] = useState(0)
 
   const onSelectType = (index) => {
     setActiveType(index)
@@ -24,6 +25,17 @@ function PizzaBlock({ name, imageUrl, price, types, sizes, isLoading }) {
       <PizzaLoadingBlock />
     )
   }
+  const onAddPizza = () => {
+    const obj = {
+      id,
+      name,
+      imageUrl,
+      price,
+      size: avaiableSizes[activeSize],
+      type: avaiableTypes[activeType]
+    }
+    onClickAddPizza(obj)
+  }
 
   return (
     <div className="pizza-block">
@@ -36,7 +48,7 @@ function PizzaBlock({ name, imageUrl, price, types, sizes, isLoading }) {
       <div className="pizza-block__selector">
         <ul>
           {
-            typeNames.map((type, index) =>
+            avaiableTypes.map((type, index) =>
               <li
                 key={type}
                 onClick={() => onSelectType(index)}
@@ -50,7 +62,7 @@ function PizzaBlock({ name, imageUrl, price, types, sizes, isLoading }) {
         </ul>
         <ul>
           {
-            avaiableTypes.map((size, index) =>
+            avaiableSizes.map((size, index) =>
               <li
                 key={size}
                 onClick={() => onSelectSize(index)}
@@ -64,8 +76,9 @@ function PizzaBlock({ name, imageUrl, price, types, sizes, isLoading }) {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">{price}</div>
-        <div className="button button--outline button--add">
+        <div className="pizza-block__price">от {price}₽ </div>
+        <Button onClick={onAddPizza}
+          className="button--add" outline>
           <svg
             width="12"
             height="12"
@@ -79,8 +92,8 @@ function PizzaBlock({ name, imageUrl, price, types, sizes, isLoading }) {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+         {addedCount && <i>{addedCount}</i>}
+        </Button>
       </div>
     </div>
   )
@@ -91,7 +104,9 @@ PizzaBlock.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   types: PropTypes.array.isRequired,
-  sizes: PropTypes.array.isRequired
+  sizes: PropTypes.array.isRequired,
+  onAddPizza: PropTypes.func,
+  addedCount: PropTypes.number
 }
 
 PizzaBlock.defaultProps = {
